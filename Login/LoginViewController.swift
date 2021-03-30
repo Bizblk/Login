@@ -10,17 +10,19 @@ import UIKit
 class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var userNameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
+    @IBOutlet weak var logInButton: UIButton!
     var logPas:[String: String] = ["Ivan": "123", "Admin": "666", "Bigboos": "999"]
     var loginToggle = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        logInButton.layer.cornerRadius = 15
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if userNameField.text!.isEmpty && passwordField.text!.isEmpty {
@@ -75,6 +77,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             }
         }
     }
+    
+   
     
 }
 
