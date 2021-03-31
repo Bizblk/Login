@@ -9,21 +9,20 @@ import UIKit
 
 class WelcomeViewController: UIViewController {
     
-    var name = ""
-
+    //MARK: - IB Outlets
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var logAutButton: UIButton!
     
+    //MARK: - Public Properties
+    var name = ""
+    
+    //MARK: - Life Cycles Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         setupOutlets()
-
     }
     
-   
-    
-   
-    
+    //MARK: - Private Methods
     private func setupOutlets() {
         userNameLabel.layer.masksToBounds = true
         userNameLabel.layer.cornerRadius = 10
