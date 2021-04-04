@@ -11,10 +11,12 @@ class WelcomeViewController: UIViewController {
     
     //MARK: - IB Outlets
     @IBOutlet weak var userNameLabel: UILabel!
+    
     @IBOutlet weak var logAutButton: UIButton!
+    @IBOutlet weak var userImageView: UIImageView!
     
     //MARK: - Public Properties
-    var name = ""
+    var user: User!
     
     //MARK: - Life Cycles Methods
     override func viewDidLoad() {
@@ -26,7 +28,12 @@ class WelcomeViewController: UIViewController {
     private func setupOutlets() {
         userNameLabel.layer.masksToBounds = true
         userNameLabel.layer.cornerRadius = 10
-        userNameLabel.text = "Hello \(name)"
+        userNameLabel.text = """
+            Hi, my name is \(user.person.name), there is some information about me here,
+            but you can find more detailed information on the tabbar tabs
+            """
         logAutButton.layer.cornerRadius = 15
+        userImageView.image = UIImage(named: user.person.photo)
+        userImageView.layer.cornerRadius = userImageView.frame.size.width / 2
     }
 }

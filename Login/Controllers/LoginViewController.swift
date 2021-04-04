@@ -16,7 +16,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var logInButton: UIButton!
     
     //MARK: - Private Properties
-    private var logPas: [String: String] = ["Ivan": "123", "Admin": "666"]
+    private let user = User.getUser()
     private var loginToggle = false
     
     //MARK: - Life Cycles Methods
@@ -28,23 +28,34 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
+        super.touchesBegan(touches, with: event)
+        view.endEditing(true)
     }
     
     //MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if !userNameField.text!.isEmpty && !passwordField.text!.isEmpty {
-            guard segue.identifier == "welcomeSegue" else { return }
-            guard let destination = segue.destination as? WelcomeViewController else { return }
-            destination.name = userNameField.text ?? ""
+        let tabBarController = segue.destination as! UITabBarController
+        guard let viewControllers = tabBarController.viewControllers else { return }
+        
+        for viewController in viewControllers {
+            if let welcomeVC = viewController as? WelcomeViewController {
+                welcomeVC.user = user
+            } else if let navigationVC = viewController as? UINavigationController {
+                let aboutUserVC = navigationVC.topViewController as! AboutMeViewController
+                aboutUserVC.user = user
+            } else if let goalsVC = viewController as? MyGoalsViewController {
+                goalsVC.goalsText = user.person.goals
+            }
         }
     }
+    
     
     //MARK: - IB Action
     @IBAction func logInAction(_ sender: Any) {
         ferefy(nameInput: userNameField.text ?? "", passInput: passwordField.text ?? "")
         if !loginToggle {
             showAlert(title: "Incorrect password or login", massage: "Use the tips")
+            passwordField.text = ""
         }
     }
     
@@ -53,7 +64,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func forgotUserNameAction(_ sender: Any) {
-        showAlert(title: "Test name", massage: "Ivan")
+        showAlert(title: "Test login", massage: "biz")
     }
     
     @IBAction func unwindSegue(_ sender: UIStoryboardSegue) {
@@ -70,8 +81,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             ferefy(nameInput: userNameField.text ?? "", passInput: passwordField.text ?? "")
             if !loginToggle {
                 showAlert(title: "Incorrect password or login", massage: "Use the tips")
+                passwordField.text = ""
             }
-            performSegue(withIdentifier: "welcomeSegue", sender: Any?.self)
+            performSegue(withIdentifier: "welcomeSegue", sender: nil)
         }
         return true
     }
@@ -88,12 +100,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func ferefy(nameInput: String, passInput: String) {
-        if !logPas.isEmpty {
-            for name in logPas {
-                if name.key == nameInput && name.value == passInput {
-                    loginToggle = true
-                }
-            }
+        if nameInput == user.login && passInput == user.password {
+            loginToggle = true
         }
     }
 }
