@@ -29,7 +29,7 @@ class WelcomeViewController: UIViewController {
         userNameLabel.layer.masksToBounds = true
         userNameLabel.layer.cornerRadius = 10
         userNameLabel.text = """
-            Hi, my name is \(user.person.name), there is some information about me here,
+            Hi, my name is \(user.person.name) \(user.person.lastName), there is some information about me here,
             but you can find more detailed information on the tabbar tabs
             """
         logAutButton.layer.cornerRadius = 15

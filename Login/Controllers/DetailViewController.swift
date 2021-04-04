@@ -11,7 +11,7 @@ class DetailViewController: UIViewController {
     
     @IBOutlet weak var detailLabel: UILabel!
     var text = ""
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupOutlets()
